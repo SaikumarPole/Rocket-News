@@ -1,0 +1,162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <title> {{title}}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="p-4">
+
+    </div>
+    <div class="container ">
+        <h1 class="text-center">Create News Article</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="article-name">Article Name</label>
+            <input type="text" class="form-control" id="article-name" name="article-name" placeholder="Enter article name">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="article-description">Description</label>
+            <textarea class="form-control" id="article-description" name="article-description"></textarea>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="article-author">Author</label>
+              <input type="text" class="form-control" id="article-author" name="article-author" placeholder="Enter author name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="source-url">Source</label>
+              <input type="text" class="form-control" id="source" name="source" placeholder="Enter source">
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <div class="mb-3" style="width: 49%;">
+              <label for="formFile" class="form-label">Upload Image</label>
+              <input class="form-control" type="file" name="attachment" id="formFile">
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Create Article</button>
+          </div>
+          <br>
+        </form>
+      </div>
+      
+    
+    <script src="{% static '/tinymce/js/tinymce/tinymce.min.js' %}"></script>
+    <script>
+        //  --------------------------------------------------TinyMCE Editor Script------------------------------------------------
+        const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+        const time_zone = '{{request.session.inbox_timezone}}' ? '{{request.session.inbox_timezone}}' : '{{request.session.entity_timezone}}' ? '{{request.session.entity_timezone}}' : 'Asia/Kolkata'
+        tinymce.init({
+            selector: '#article-description',
+            plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+            editimage_cors_hosts: ['picsum.photos'],
+            menubar: 'file edit view insert format tools table help',
+            toolbar: 'undo redo  insertContentBlock| bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify lineheight | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak insertdatetime | charmap emoticons | fullscreen  preview  print | insertfile image media template link anchor codesample | ltr rtl nonbreaking hr',
+            toolbar_sticky:false,
+            toolbar_sticky_offset: isSmallScreen ? 102 : 108,
+            extended_valid_elements : 'script[src|async|defer|type|charset]',
+
+            codesample_global_prismjs: true,
+            codesample_languages: [
+            {text:'HTML/XML',value:'markup'},{text:"XML",value:"xml"},{text:"HTML",value:"html"},{text:"mathml",value:"mathml"},
+            {text:"SVG",value:"svg"},{text:"CSS",value:"css"},{text:"Clike",value:"clike"},{text:"Javascript",value:"javascript"},
+            {text:"ActionScript",value:"actionscript"},{text:"apacheconf",value:"apacheconf"},{text:"apl",value:"apl"},{text:"applescript",value:"applescript"},
+            {text:"asciidoc",value:"asciidoc"},{text:"aspnet",value:"aspnet"},{text:"autoit",value:"autoit"},{text:"autohotkey",value:"autohotkey"},{text:"bash",value:"bash"},
+            {text:"basic",value:"basic"},{text:"batch",value:"batch"},{text:"c",value:"c"},{text:"brainfuck",value:"brainfuck"},{text:"bro",value:"bro"},
+            {text:"bison",value:"bison"},
+            {text:"C#",value:"csharp"},{text:"C++",value:"cpp"},{text:"CoffeeScript",value:"coffeescript"},{text:"ruby",value:"ruby"},{text:"d",value:"d"},{text:"dart",value:"dart"},
+            {text:"diff",value:"diff"},{text:"docker",value:"docker"},{text:"eiffel",value:"eiffel"},{text:"elixir",value:"elixir"},{text:"erlang",value:"erlang"},{text:"fsharp",value:"fsharp"},
+            {text:"fortran",value:"fortran"},{text:"git",value:"git"},{text:"glsl",value:"glsl"},{text:"go",value:"go"},{text:"groovy",value:"groovy"},{text:"haml",value:"haml"},
+            {text:"handlebars",value:"handlebars"},{text:"haskell",value:"haskell"},{text:"haxe",value:"haxe"},{text:"http",value:"http"},{text:"icon",value:"icon"},
+            {text:"inform7",value:"inform7"},{text:"ini",value:"ini"},{text:"j",value:"j"},{text:"jade",value:"jade"},{text:"java",value:"java"},{text:"JSON",value:"json"},
+            {text:"jsonp",value:"jsonp"},{text:"julia",value:"julia"},{text:"keyman",value:"keyman"},{text:"kotlin",value:"kotlin"},{text:"latex",value:"latex"},{text:"less",value:"less"},
+            {text:"lolcode",value:"lolcode"},{text:"lua",value:"lua"},{text:"makefile",value:"makefile"},{text:"markdown",value:"markdown"},{text:"matlab",value:"matlab"},
+            {text:"mel",value:"mel"},{text:"mizar",value:"mizar"},{text:"monkey",value:"monkey"},{text:"nasm",value:"nasm"},{text:"nim",value:"nim"},{text:"nix",value:"nix"},
+            {text:"nsis",value:"nsis"},{text:"objectivec",value:"objectivec"},{text:"ocaml",value:"ocaml"},{text:"oz",value:"oz"},{text:"parigp",value:"parigp"},
+            {text:"parser",value:"parser"},{text:"pascal",value:"pascal"},{text:"perl",value:"perl"},{text:"PHP",value:"php"},{text:"processing",value:"processing"},{text:"prolog",value:"prolog"},
+            {text:"protobuf",value:"protobuf"},{text:"puppet",value:"puppet"},{text:"pure",value:"pure"},{text:"python",value:"python"},{text:"q",value:"q"},{text:"qore",value:"qore"},
+            {text:"r",value:"r"},{text:"jsx",value:"jsx"},{text:"rest",value:"rest"},{text:"rip",value:"rip"},{text:"roboconf",value:"roboconf"},{text:"crystal",value:"crystal"},
+            {text:"rust",value:"rust"},{text:"sas",value:"sas"},{text:"sass",value:"sass"},{text:"scss",value:"scss"},{text:"scala",value:"scala"},{text:"scheme",value:"scheme"},
+            {text:"smalltalk",value:"smalltalk"},{text:"smarty",value:"smarty"},{text:"SQL",value:"sql"},{text:"stylus",value:"stylus"},{text:"swift",value:"swift"},
+            {text:"tcl",value:"tcl"},{text:"textile",value:"textile"},{text:"twig",value:"twig"},{text:"TypeScript",value:"typescript"},{text:"verilog",value:"verilog"},
+            {text:"vhdl",value:"vhdl"},{text:"wiki",value:"wiki"},{text:"YAML",value:"yaml"}
+            ],
+            font_family_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Gotham=Gotham; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",
+            help_tabs: [
+                'shortcuts', // the default shortcuts tab
+            ],
+            // setup: function (editor) { 
+            // editor.ui.registry.addIcon('save',`<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 256c-35.2 0-64 28.8-64 64c0 35.2 28.8 64 64 64c35.2 0 64-28.8 64-64C288 284.8 259.2 256 224 256zM433.1 129.1l-83.9-83.9C341.1 37.06 328.8 32 316.1 32H64C28.65 32 0 60.65 0 96v320c0 35.35 28.65 64 64 64h320c35.35 0 64-28.65 64-64V163.9C448 151.2 442.9 138.9 433.1 129.1zM128 80h144V160H128V80zM400 416c0 8.836-7.164 16-16 16H64c-8.836 0-16-7.164-16-16V96c0-8.838 7.164-16 16-16h16v104c0 13.25 10.75 24 24 24h192C309.3 208 320 197.3 320 184V83.88l78.25 78.25C399.4 163.2 400 164.8 400 166.3V416z"/></svg>`);
+            // }, //to change the existing icon with svg
+            fullscreen_native: true,
+            autosave_ask_before_unload: true,
+            autosave_interval: '30s',
+            autosave_prefix: '{path}{query}-{id}-',
+            autosave_restore_when_empty: false,
+            autosave_retention: '2m',
+            browser_spellcheck: true,
+            image_advtab: true,
+            
+            importcss_append: true,
+            file_picker_callback: (callback, value, meta) => {
+            /* Provide file and text for the link dialog */
+            if (meta.filetype === 'file') {
+                callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+            }
+
+            /* Provide image and alt text for the image dialog */
+            if (meta.filetype === 'image') {
+                callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+            }
+
+            /* Provide alternative source and posted for the media dialog */
+            if (meta.filetype === 'media') {
+                callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
+            }
+            },
+            templates: [
+            { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+            { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+            { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+            ],
+            template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+            template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+            height: 500,
+            image_caption: true,
+            image_title: true,
+            image_upload_url: "{% static 'images/article' %}",
+            quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+            noneditable_class: 'mceNonEditable',
+
+            forced_root_block : 'div',  //this will convert p tag to div tag
+            // nonbreaking_force_tab: true,
+            branding: false,
+            toolbar_mode: 'sliding',
+            contextmenu: 'link image table',
+            theme: 'silver',
+            content_style: " @import url('https://fonts.cdnfonts.com/css/gotham'); body { font-family:Gotham; font-size:15px; font-weight: 500; line-height: 1.5; color: #2f3245;},p { padding: 0; margin: 70px 0; }",
+        });
+    </script>
+
+
+</body>
