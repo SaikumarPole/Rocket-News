@@ -11,7 +11,7 @@ With Rocket-News, users can easily create news articles and publish them to the 
  Create a virtual environment and activate it 
 
 ```
-- python -m venv env 
+  python -m venv env 
   source env/bin/activate
 ```
 - Install the dependencies 
